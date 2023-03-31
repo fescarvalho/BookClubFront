@@ -1,9 +1,13 @@
 import { ChakraProvider } from '@chakra-ui/react'
-
-import './App.css'
+import { theme } from 'styles'
+import { LoginScreen } from 'src/modules/unauthenticated/screens'
 
 function App() {
-  return <ChakraProvider className="App"></ChakraProvider>
+  return (
+    <ChakraProvider theme={theme}>
+      <LoginScreen />
+    </ChakraProvider>
+  )
 }
 
 export default App

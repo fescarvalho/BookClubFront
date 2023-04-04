@@ -6,13 +6,14 @@ export const LoginScreen = () => {
     <Flex flexDir="row" w="100vw" h="100vh">
       <Flex
         justifyContent="center"
-        alignItems="flex-start"
-        paddingLeft="112px"
+        alignItems={['center', 'flex-start']}
+        paddingLeft={['0px', '24px', '0px', '112px']}
+        padding={['24px', '48px', '80px', '150px']}
         flexDir="column"
-        w="40%"
+        w={['100%', '100%', '100%', '40%']}
         h="100%"
       >
-        <Flex w="416px" flexDir="column">
+        <Flex w={['100%', '100%', '100%', '416px']} flexDir="column">
           <Image
             src="/img/logo.svg"
             alt="book club logo"
@@ -39,7 +40,7 @@ export const LoginScreen = () => {
         </Flex>
       </Flex>
       <Flex
-        w="70%"
+        w={['0%', '0%', '0%', '60%']}
         h="100%"
         backgroundImage="url(/img/login-background.svg)"
         backgroundSize="cover"

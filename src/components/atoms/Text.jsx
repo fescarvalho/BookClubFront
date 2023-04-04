@@ -8,7 +8,7 @@ Text.ScreenTitle = ({ children, ...props }) => (
   <ChackraText
     color="brand.black"
     fontWeight="extrabold"
-    fontSize="20px"
+    fontSize={'20px'}
     {...props}
   >
     {children}

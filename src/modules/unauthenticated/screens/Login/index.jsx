@@ -1,9 +1,31 @@
 import { Flex, Image } from '@chakra-ui/react'
 import { Text, Input, Link, Button } from 'src/components'
 import { useNavigate } from 'react-router-dom'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
 
 export const LoginScreen = () => {
   const navigate = useNavigate()
+
+  const { handleSubmit, values, handleChange, errors } = useFormik({
+    initialValues: {
+      email: '',
+      password: ''
+    },
+    validationSchema: Yup.object({
+      email: Yup.string()
+        .email('E-mail inválido.')
+        .required('E-mail é obrigatorio.'),
+      password: Yup.string()
+        .min(6, 'Senha deve ter ao menos 6 caracteres.')
+        .required('Senha é obrigatoria.')
+    }),
+    onSubmit: (data) => {
+      console.log(data)
+    }
+  })
+  console.log({ values, errors })
+
   return (
     <Flex flexDir="row" w="100vw" h="100vh">
       <Flex
@@ -22,8 +44,24 @@ export const LoginScreen = () => {
             h="48px"
           ></Image>
           <Text.ScreenTitle mt="48px">Login</Text.ScreenTitle>
-          <Input mt="24px" placeholder="email@example.com" />
-          <Input.Password mt="16px" placeholder="********" />
+          <Input
+            id="email"
+            name="email"
+            value={values.email}
+            mt="24px"
+            placeholder="email@example.com"
+            onChange={handleChange}
+            errors={errors.email}
+          />
+          <Input.Password
+            id="password"
+            name="password"
+            value={values.password}
+            mt="16px"
+            placeholder="********"
+            onChange={handleChange}
+            errors={errors.password}
+          />
           <Flex
             alignItems="flex-end"
             justifyContent="flex-end"
@@ -34,7 +72,7 @@ export const LoginScreen = () => {
               Esqueceu sua senha?
             </Link>
           </Flex>
-          <Button mb="12px" mt="24px">
+          <Button onClick={handleSubmit} mb="12px" mt="24px">
             Login
           </Button>
           <Link.Action

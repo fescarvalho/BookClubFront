@@ -45,13 +45,14 @@ export const LoginScreen = () => {
           ></Image>
           <Text.ScreenTitle mt="48px">Login</Text.ScreenTitle>
           <Input
+            type="email"
             id="email"
             name="email"
             value={values.email}
-            mt="24px"
-            placeholder="email@example.com"
             onChange={handleChange}
             errors={errors.email}
+            mt="24px"
+            placeholder="email@example.com"
           />
           <Input.Password
             id="password"

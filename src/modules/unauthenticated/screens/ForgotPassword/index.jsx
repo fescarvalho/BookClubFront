@@ -1,8 +1,8 @@
 import { Flex, Image } from '@chakra-ui/react'
-import { Text, Input, Link, Button } from 'src/components'
+import { Text, Input, Button } from 'src/components'
 import { useNavigate } from 'react-router-dom'
 
-export const RegisterLogin = () => {
+export const ForgotPasswordScreen = () => {
   const navigate = useNavigate()
   return (
     <Flex flexDir="row" w="100vw" h="100vh">
@@ -21,21 +21,16 @@ export const RegisterLogin = () => {
             w="160px"
             h="48px"
           ></Image>
-          <Text.ScreenTitle mt="48px">Cadastro</Text.ScreenTitle>
-          <Input mt="24px" placeholder="Nome Completo" />
-          <Input mt="16px" placeholder="E-mail" />
-          <Input mt="16px" placeholder="Senha" />
-          <Input.Password mt="16px" placeholder="Confirmar Senha" />
+          <Text.ScreenTitle mt="48px">Esqueceu Senha</Text.ScreenTitle>
+          <Text mt="24px">
+            Digite abaixo seu email que enviaremos um codigo de recuperação de
+            senha:
+          </Text>
+          <Input mt="24px" placeholder="email@example.com" />
 
-          <Button mb="12px" mt="24px">
-            Cadastrar
+          <Button onClick={() => navigate('/reset-password')} mt="24px">
+            Avançar
           </Button>
-          <Link.Action
-            onClick={() => navigate('/')}
-            mt="8px"
-            text="Já possui uma conta?"
-            actionText="Faça login aqui"
-          />
         </Flex>
       </Flex>
       <Flex

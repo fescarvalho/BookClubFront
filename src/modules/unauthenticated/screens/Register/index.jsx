@@ -27,7 +27,6 @@ export const RegisterScreen = () => {
         duration: 6000,
         isClosable: true
       })
-
       navigate('/')
     }
   })

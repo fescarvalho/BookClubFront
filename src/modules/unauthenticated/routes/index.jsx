@@ -1,6 +1,6 @@
 import {
   LoginScreen,
-  RegisterLogin,
+  RegisterScreen,
   ForgotPasswordScreen,
   ResetPasswordScreen
 } from '../screens'
@@ -11,7 +11,7 @@ export const unauthRoutes = [
   },
   {
     path: '/signup',
-    element: <RegisterLogin />
+    element: <RegisterScreen />
   },
   {
     path: '/forgot-password',

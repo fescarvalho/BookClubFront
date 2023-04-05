@@ -1,11 +1,37 @@
-import { Flex, Image } from '@chakra-ui/react'
+import { Flex, Image, useToast } from '@chakra-ui/react'
 import { Text, Input, Link, Button } from 'src/components'
 import { useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { useMutation } from 'react-query'
+import { registerCall } from 'src/services/api/requests'
 
-export const RegisterLogin = () => {
+export const RegisterScreen = () => {
   const navigate = useNavigate()
+  const toast = useToast()
+  const mutation = useMutation((newUser) => registerCall(newUser), {
+    onError: (error) => {
+      toast({
+        title: 'Falha ao criar a conta.',
+        description:
+          error?.response?.data?.error || 'Por favor, tente novamente.',
+        status: 'error',
+        duration: 3000,
+        isClosable: true
+      })
+    },
+    onSuccess: () => {
+      toast({
+        title: 'Conta criada com sucesso!',
+        status: 'success',
+        duration: 6000,
+        isClosable: true
+      })
+
+      navigate('/')
+    }
+  })
+
   const { handleSubmit, values, handleChange, errors } = useFormik({
     initialValues: {
       name: '',
@@ -15,42 +41,36 @@ export const RegisterLogin = () => {
     },
     validationSchema: Yup.object({
       name: Yup.string()
-        .min(3, 'Nome deve conter ao menos 3 caracteres')
-        .required('Nome é obrigatorio.'),
+        .min(3, 'Nome deve ter ao menos 3 caracteres.')
+        .required('Nome é obrigatório.'),
       email: Yup.string()
         .email('E-mail inválido.')
-        .required('E-mail é obrigatorio.'),
+        .required('E-mail é obrigatório.'),
       password: Yup.string()
         .min(6, 'Senha deve ter ao menos 6 caracteres.')
-        .required('Senha é obrigatoria.'),
+        .required('Senha é obrigatório.'),
       confirmPassword: Yup.string()
         .min(6, 'Confirmar a senha deve ter ao menos 6 caracteres.')
-        .required('Confirmar a senha é obrigatorio.')
-        .oneOf([Yup.ref('password'), null], 'Senha não são iguais.')
+        .required('Confirmar a senha é obrigatório.')
+        .oneOf([Yup.ref('password'), null], 'Senhas não são iguais.')
     }),
     onSubmit: (data) => {
-      console.log({ data })
+      mutation.mutate(data)
     }
   })
-  console.log({ values, errors })
 
   return (
     <Flex flexDir="row" w="100vw" h="100vh">
       <Flex
-        justifyContent="center"
         alignItems={['center', 'flex-start']}
+        justifyContent="center"
         padding={['24px', '48px', '80px', '112px']}
         flexDir="column"
         w={['100%', '100%', '100%', '40%']}
         h="100%"
       >
-        <Flex w={['100%', '100%', '100%', '416px']} flexDir="column">
-          <Image
-            src="/img/logo.svg"
-            alt="book club logo"
-            w="160px"
-            h="48px"
-          ></Image>
+        <Flex flexDir="column" w={['100%', '100%', '100%', '416px']}>
+          <Image src="/img/logo.svg" alt="BookClub Logo" w="160px" h="48px" />
           <Text.ScreenTitle mt="48px">Cadastro</Text.ScreenTitle>
           <Input
             type="text"
@@ -58,25 +78,25 @@ export const RegisterLogin = () => {
             name="name"
             value={values.name}
             onChange={handleChange}
-            errors={errors.name}
+            error={errors.name}
             mt="24px"
-            placeholder="Nome Completo"
+            placeholder="Nome completo"
           />
           <Input
             id="email"
             name="email"
             value={values.email}
             onChange={handleChange}
-            errors={errors.email}
+            error={errors.email}
             mt="16px"
             placeholder="E-mail"
           />
-          <Input
+          <Input.Password
             id="password"
             name="password"
             value={values.password}
             onChange={handleChange}
-            errors={errors.password}
+            error={errors.password}
             mt="16px"
             placeholder="Senha"
           />
@@ -85,17 +105,21 @@ export const RegisterLogin = () => {
             name="confirmPassword"
             value={values.confirmPassword}
             onChange={handleChange}
-            errors={errors.confirmPassword}
+            error={errors.confirmPassword}
             mt="16px"
             placeholder="Confirmar Senha"
           />
 
-          <Button onClick={handleSubmit} mb="12px" mt="24px">
+          <Button
+            isLoading={mutation.isLoading}
+            mt="24px"
+            onClick={handleSubmit}
+          >
             Cadastrar
           </Button>
           <Link.Action
             onClick={() => navigate('/')}
-            mt="8px"
+            mt="48px"
             text="Já possui uma conta?"
             actionText="Faça login aqui"
           />
@@ -103,8 +127,8 @@ export const RegisterLogin = () => {
       </Flex>
       <Flex
         w={['0%', '0%', '0%', '60%']}
-        h="100%"
-        backgroundImage="url(/img/login-background.svg)"
+        h="100vh"
+        backgroundImage="url('/img/auth_background.svg')"
         backgroundSize="cover"
         backgroundPosition="center"
         backgroundRepeat="no-repeat"

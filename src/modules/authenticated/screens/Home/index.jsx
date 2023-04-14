@@ -1,8 +1,13 @@
 import { Flex } from '@chakra-ui/react';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
+import { NavBar } from 'src/components/organisms';
 
 export const HomeScreen = () => {
-  const userStore = useSelector((state) => state.user);
-  console.log({ userStore });
-  return <Flex></Flex>;
+  // const userStore = useSelector((state) => state.user);
+
+  return (
+    <Flex>
+      <NavBar />
+    </Flex>
+  );
 };

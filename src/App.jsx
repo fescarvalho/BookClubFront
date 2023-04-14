@@ -1,18 +1,22 @@
-import { ChakraProvider } from '@chakra-ui/react'
-import { theme } from 'styles'
-import { RouterProvider } from 'react-router-dom'
-import { router } from 'src/components/router'
-import { QueryClientProvider } from 'react-query'
-import { queryClient } from 'src/services/api'
+import { ChakraProvider } from '@chakra-ui/react';
+import { Provider } from 'react-redux';
+import { RouterProvider } from 'react-router-dom';
+import { QueryClientProvider } from 'react-query';
+import { router } from 'src/router';
+import { theme } from 'styles';
+import { queryClient } from 'src/services/api';
+import { store } from './services/store';
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ChakraProvider theme={theme}>
-        <RouterProvider router={router} />
-      </ChakraProvider>
-    </QueryClientProvider>
-  )
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <ChakraProvider theme={theme}>
+          <RouterProvider router={router} />
+        </ChakraProvider>
+      </QueryClientProvider>
+    </Provider>
+  );
 }
 
-export default App
+export default App;

@@ -1,15 +1,18 @@
-import { Flex, Image, useToast } from '@chakra-ui/react'
-import { useMutation } from 'react-query'
-import { loginCall } from 'src/services/api/requests'
-import { Text, Input, Link, Button } from 'src/components'
-import { useNavigate } from 'react-router-dom'
-import { useFormik } from 'formik'
-import { saveItem } from 'src/services/storage'
-import * as Yup from 'yup'
+import { Flex, Image, useToast } from '@chakra-ui/react';
+import { useMutation } from 'react-query';
+import { useDispatch } from 'react-redux';
+import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom';
+import { useFormik } from 'formik';
+import { loginCall } from 'src/services/api/requests';
+import { Text, Input, Link, Button } from 'src/components';
+import { saveItem } from 'src/services/storage';
+import { setAll } from 'src/services/store/slices/user';
 
 export const LoginScreen = () => {
-  const navigate = useNavigate()
-  const toast = useToast()
+  const navigate = useNavigate();
+  const toast = useToast();
+  const dispatch = useDispatch();
 
   const mutation = useMutation((newUser) => loginCall(newUser), {
     onError: (error) => {
@@ -20,7 +23,7 @@ export const LoginScreen = () => {
         status: 'error',
         duration: 3000,
         isClosable: true
-      })
+      });
     },
     onSuccess: (data) => {
       toast({
@@ -28,11 +31,17 @@ export const LoginScreen = () => {
         status: 'success',
         duration: 6000,
         isClosable: true
-      })
-      saveItem('@bookclub_token', data?.data?.token)
-      navigate('/home')
+      });
+      saveItem('@bookclub_token', data?.data?.token);
+      dispatch(
+        setAll({
+          token: data?.data.token,
+          user: data?.data.user
+        })
+      );
+      navigate('/home');
     }
-  })
+  });
 
   const { handleSubmit, values, handleChange, errors } = useFormik({
     initialValues: {
@@ -48,9 +57,9 @@ export const LoginScreen = () => {
         .required('Senha é obrigatoria.')
     }),
     onSubmit: (data) => {
-      mutation.mutate(data)
+      mutation.mutate(data);
     }
-  })
+  });
 
   return (
     <Flex flexDir="row" w="100vw" h="100vh">
@@ -126,5 +135,5 @@ export const LoginScreen = () => {
         borderBottomLeftRadius="32px"
       />
     </Flex>
-  )
-}
+  );
+};

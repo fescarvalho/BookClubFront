@@ -12,13 +12,26 @@ export const BookList = () => {
       flexDirection="column"
       mt="48px"
       paddingX={['24px', '48px', '80px', '112px']}
+      h={['100%', '400px']}
     >
       <Text.ScreenTitle>Destasques</Text.ScreenTitle>
-      <Flex mt="24px" flexDir="row">
-        {data?.data &&
-          data?.data.map((item) => (
-            <BookCard key={`book_${item.id}`} {...item} />
-          ))}
+      <Flex
+        flexDirection="column"
+        mt={['24px', '48px']}
+        paddingX={['24px', '48px', '80px', '112px']}
+        overflowX={['scroll', 'auto']}
+        css={{
+          '::-webkit-scrollbar': {
+            display: 'none'
+          }
+        }}
+      >
+        <Flex mt={['12px', '24px']} flexDir="row">
+          {data?.data &&
+            data?.data.map((item) => (
+              <BookCard key={`book_${item.id}`} {...item} />
+            ))}
+        </Flex>
       </Flex>
     </Flex>
   );

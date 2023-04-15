@@ -14,10 +14,12 @@ export const NavBar = () => {
       <Image
         src="/img/logo.svg"
         alt="book club logo"
-        w="160px"
+        w={['100px', '160px']}
         h="48px"
       ></Image>
-      <SearchBar />
+      <Flex display={['none', 'flex']}>
+        <SearchBar />
+      </Flex>
       <UserMenu />
     </Flex>
   );

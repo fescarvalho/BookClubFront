@@ -8,10 +8,14 @@ import { getCategory, getBooksByCategory } from 'src/services/api/requests';
 export const CategoryList = () => {
   const [selected, setSelected] = useState();
   const { data } = useQuery('categories', getCategory);
-  const bookQuery = useQuery(['booksBuId', selected], () =>
-    getBooksByCategory(selected)
+
+  const bookQuery = useQuery(
+    ['booksBuId', selected],
+    () => getBooksByCategory(selected),
+    {
+      enabled: !!selected
+    }
   );
-  console.log(bookQuery);
 
   useEffect(() => {
     if (!selected && data?.data) {

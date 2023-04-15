@@ -1,5 +1,5 @@
-import { extendTheme } from '@chakra-ui/react'
-import { colors } from './colors'
+import { extendTheme } from '@chakra-ui/react';
+import { colors } from './colors';
 
 export const theme = extendTheme({
   colors: {
@@ -11,8 +11,11 @@ export const theme = extendTheme({
         fontFamily: 'Inter',
         padding: 0,
         margin: 0,
-        backgroundColor: colors.background
+        backgroundColor: colors.background,
+        width: '100vw',
+        scrollX: false,
+        overflowX: 'hidden'
       }
     }
   }
-})
+});

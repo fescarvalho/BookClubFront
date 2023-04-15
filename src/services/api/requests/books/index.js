@@ -6,3 +6,10 @@ export const getHighlightedBooks = () =>
       Authorization: `beares ${localStorage.getItem('@bookclub_token')}`
     }
   });
+
+export const getBooksByCategory = (id) =>
+  api.get(`/book?category_id=${id}`, {
+    headers: {
+      Authorization: `beares ${localStorage.getItem('@bookclub_token')}`
+    }
+  });

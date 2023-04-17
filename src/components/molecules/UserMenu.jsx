@@ -1,55 +1,63 @@
-import { Avatar, Menu, MenuList, MenuButton, Flex } from '@chakra-ui/react';
-import { BsBookmarkHeart } from 'react-icons/bs';
-import { BiUser, BiCheckShield } from 'react-icons/bi';
+import { Avatar, Menu, MenuList, MenuButton, Flex } from '@chakra-ui/react'
+import { BsBookmarkHeart } from 'react-icons/bs'
+import { BiUser, BiCheckShield } from 'react-icons/bi'
 import {
   HiOutlineClipboard,
   HiOutlineLogout,
   HiOutlineDocumentText
-} from 'react-icons/hi';
-import { useSelector } from 'react-redux';
-import { ChevronDownIcon } from '@chakra-ui/icons';
-import { Text, MenuItem } from 'src/components/atoms';
+} from 'react-icons/hi'
+import { useSelector } from 'react-redux'
+import { ChevronDownIcon } from '@chakra-ui/icons'
+import { useNavigate } from 'react-router-dom'
+import { Text, MenuItem } from 'src/components/atoms'
 
 export const UserMenu = () => {
-  const userStore = useSelector((state) => state.user);
+  const navigate = useNavigate()
+  const userStore = useSelector((state) => state.user)
   const menuOptions = [
     {
       id: 0,
       icon: BsBookmarkHeart,
       text: 'Favoritos',
-      divider: false
+      divider: false,
+      onClick: () => navigate('/favorites')
     },
     {
       id: 1,
       icon: BiUser,
       text: 'Dados Pessoais',
-      divider: false
+      divider: false,
+      onClick: () => navigate('/')
     },
     {
       id: 2,
       icon: BiCheckShield,
       text: 'Alterar Senha',
-      divider: true
+      divider: true,
+      onClick: () => navigate('/')
     },
     {
       id: 3,
       icon: HiOutlineDocumentText,
       text: 'Termo de Uso',
-      divider: false
+      divider: false,
+      onClick: () => navigate('/')
     },
     {
       id: 4,
       icon: HiOutlineClipboard,
       text: 'Politica de Privacidade',
-      divider: true
+      divider: true,
+      onClick: () => navigate('/')
     },
     {
       id: 5,
       icon: HiOutlineLogout,
       text: 'Logout',
-      divider: false
+      divider: false,
+      onClick: () => navigate('/')
     }
-  ];
+  ]
   return (
     <Menu>
       <MenuButton>
@@ -74,9 +82,13 @@ export const UserMenu = () => {
       </MenuButton>
       <MenuList>
         {menuOptions.map((item) => (
-          <MenuItem key={`menu_item_${item.id}`} {...item} />
+          <MenuItem
+            onClick={() => item.onClick()}
+            key={`menu_item_${item.id}`}
+            {...item}
+          />
         ))}
       </MenuList>
     </Menu>
-  );
-};
+  )
+}

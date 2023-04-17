@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Flex } from '@chakra-ui/react'
+import { Flex, Spinner } from '@chakra-ui/react'
 import { Text } from 'src/components/atoms'
 import { CategoryCard, BookCard } from 'src/components/molecules'
 import { useQuery } from 'react-query'
@@ -8,20 +8,24 @@ import { getCategory, getBooksByCategory } from 'src/services/api/requests'
 export const CategoryList = ({ title, categoryId }) => {
   const [selected, setSelected] = useState(categoryId)
   const { data } = useQuery('categories', getCategory)
-
-  const bookQuery = useQuery(
-    ['booksBuId', selected],
-    () => getBooksByCategory(selected),
-    {
-      enabled: !!selected
-    }
-  )
+  console.log({ seleceted: selected })
+  const {
+    data: bookQuery,
+    refetch,
+    isLoading
+  } = useQuery(['booksById', selected], () => getBooksByCategory(selected), {
+    enabled: !!selected
+  })
 
   useEffect(() => {
     if (!selected && data?.data) {
       setSelected(data?.data[0].id)
     }
   }, [data])
+
+  useEffect(() => {
+    refetch()
+  }, [categoryId])
 
   return (
     <Flex
@@ -64,8 +68,18 @@ export const CategoryList = ({ title, categoryId }) => {
         mt="12px"
         flexDir="row"
       >
-        {bookQuery?.data &&
-          bookQuery?.data.data.map((item) => (
+        {isLoading && (
+          <Flex alignItems="center" h="230px" justifyContent="center">
+            <Spinner />
+          </Flex>
+        )}
+        {!isLoading && bookQuery && bookQuery?.data?.lenght === 0 && (
+          <Flex alignItems="center" h="230px" justifyContent="center">
+            <Text>Nenhum Livro realcionado encontrado.</Text>
+          </Flex>
+        )}
+        {bookQuery &&
+          bookQuery?.data.map((item) => (
             <BookCard key={`book_${item.id}`} {...item} />
           ))}
       </Flex>

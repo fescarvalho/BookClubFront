@@ -11,6 +11,16 @@ import { CategoryList } from 'src/components/organisms'
 
 export const BookDetailScreen = () => {
   const toast = useToast()
+
+  const { id } = useParams()
+
+  const { data, refetch, isLoading } = useQuery(
+    ['booksBuId', id],
+    () => getBookDetail(id),
+    {
+      enabled: !!id
+    }
+  )
   const addFavoriteMutation = useMutation((data) => addBookToFavorite(data), {
     onError: (error) => {
       toast({
@@ -58,14 +68,7 @@ export const BookDetailScreen = () => {
       }
     }
   )
-  const { id } = useParams()
-  const { data, refetch, isLoading } = useQuery(
-    ['booksBuId', id],
-    () => getBookDetail(id),
-    {
-      enabled: !!id
-    }
-  )
+
   const handleButtonClick = () => {
     if (data?.data?.favorite) {
       deleteFavoriteMutation.mutate(data?.data?.favorite.id)
@@ -152,7 +155,7 @@ export const BookDetailScreen = () => {
         </Flex>
       </Flex>
       <CategoryList
-        text="Livros Realacionados"
+        title="Livros Realacionados"
         categoryId={data?.data?.book?.category?.id}
       />
     </Flex>

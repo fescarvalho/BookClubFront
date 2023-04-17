@@ -1,16 +1,20 @@
-import { Flex } from '@chakra-ui/react';
-import { Text } from 'src/components';
+import { Flex } from '@chakra-ui/react'
+import { Text } from 'src/components'
+import { useNavigate } from 'react-router-dom'
 
-export const BookCard = ({ cover_url, name, author }) => {
+export const BookCard = ({ id, cover_url, name, author }) => {
+  const navigate = useNavigate()
   return (
     <Flex
       mr="16px"
       flexDir="column"
       alignItems="center"
       justifyContent="center"
+      cursor="pointer"
+      onClick={() => navigate(`/book-detail/${id}`)}
     >
       <Flex
-        backgroundImage={`url(${cover_url})`}
+        background={`url(${cover_url})`}
         backgroundSize="cover"
         backgroundPosition="center"
         h={['180px', '230px']}
@@ -30,5 +34,5 @@ export const BookCard = ({ cover_url, name, author }) => {
         {author?.name}
       </Text>
     </Flex>
-  );
-};
+  )
+}

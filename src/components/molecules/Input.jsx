@@ -3,11 +3,11 @@ import {
   Input as ChakraInput,
   InputGroup,
   InputRightElement
-} from '@chakra-ui/react'
+} from '@chakra-ui/react';
 
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
-import { useState } from 'react'
-import { Text } from 'src/components/atoms/Text'
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { useState } from 'react';
+import { Text } from 'src/components/atoms/Text';
 
 export const Input = (props) => {
   return (
@@ -20,12 +20,12 @@ export const Input = (props) => {
       />
       {props.errors && <Text color="red">{props.errors}</Text>}
     </>
-  )
-}
+  );
+};
 
 Input.Password = ({ values, onChange, id, name, ...props }) => {
-  const [show, setShow] = useState(false)
-  const handleClick = () => setShow(!show)
+  const [show, setShow] = useState(false);
+  const handleClick = () => setShow(!show);
 
   return (
     <>
@@ -63,7 +63,7 @@ Input.Password = ({ values, onChange, id, name, ...props }) => {
       </InputGroup>
       {props.errors && <Text color="red">{props.errors}</Text>}
     </>
-  )
-}
+  );
+};
 
-Input.Password.displayName = 'InputPassword'
+Input.Password.displayName = 'InputPassword';

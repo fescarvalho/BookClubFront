@@ -1,11 +1,11 @@
-import { Flex } from '@chakra-ui/react';
-import { BookCard } from 'src/components';
-import { Text } from 'src/components/atoms';
-import { useQuery } from 'react-query';
-import { getHighlightedBooks } from 'src/services/api/requests';
+import { Flex } from '@chakra-ui/react'
+import { BookCard } from 'src/components'
+import { Text } from 'src/components/atoms'
+import { useQuery } from 'react-query'
+import { getHighlightedBooks } from 'src/services/api/requests'
 
 export const BookList = () => {
-  const { data } = useQuery('highlighted', getHighlightedBooks);
+  const { data } = useQuery('highlighted', getHighlightedBooks)
 
   return (
     <Flex
@@ -18,7 +18,6 @@ export const BookList = () => {
       <Flex
         flexDirection="column"
         mt={['24px', '48px']}
-        paddingX={['24px', '48px', '80px', '112px']}
         overflowX={['scroll', 'auto']}
         css={{
           '::-webkit-scrollbar': {
@@ -34,5 +33,5 @@ export const BookList = () => {
         </Flex>
       </Flex>
     </Flex>
-  );
-};
+  )
+}

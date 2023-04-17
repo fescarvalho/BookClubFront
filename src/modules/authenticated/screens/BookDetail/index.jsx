@@ -1,15 +1,80 @@
-import { Flex } from '@chakra-ui/react'
+import { Flex, useToast } from '@chakra-ui/react'
+import { useQuery, useMutation } from 'react-query'
 import { useParams } from 'react-router-dom'
-import { getBookDetail } from 'src/services/api/requests'
-import { useQuery } from 'react-query'
+import {
+  getBookDetail,
+  addBookToFavorite,
+  deleteBookFromFavorite
+} from 'src/services/api/requests'
 import { NavBar, Text, Button } from 'src/components'
+import { CategoryList } from 'src/components/organisms'
 
 export const BookDetailScreen = () => {
-  const { id } = useParams()
-  const { data } = useQuery(['booksBuId', id], () => getBookDetail(id), {
-    enabled: !!id
+  const toast = useToast()
+  const addFavoriteMutation = useMutation((data) => addBookToFavorite(data), {
+    onError: (error) => {
+      toast({
+        title: 'Erro ao adcionar livro aos favoritos.',
+        description:
+          error?.response?.data?.error || 'Por favor, tente novamente.',
+        status: 'error',
+        duration: 3000,
+        isClosable: true
+      })
+      refetch()
+    },
+    onSuccess: () => {
+      toast({
+        title: 'Livro adcionado aos favoritos com sucesso!',
+        status: 'success',
+        duration: 6000,
+        isClosable: true
+      })
+      refetch()
+    }
   })
-
+  const deleteFavoriteMutation = useMutation(
+    (data) => deleteBookFromFavorite(data),
+    {
+      onError: (error) => {
+        toast({
+          title: 'Erro ao remover livro dos favoritos.',
+          description:
+            error?.response?.data?.error || 'Por favor, tente novamente.',
+          status: 'error',
+          duration: 3000,
+          isClosable: true
+        })
+        refetch()
+      },
+      onSuccess: () => {
+        toast({
+          title: 'Livro removido dos favoritos com sucesso!',
+          status: 'success',
+          duration: 6000,
+          isClosable: true
+        })
+        refetch()
+      }
+    }
+  )
+  const { id } = useParams()
+  const { data, refetch, isLoading } = useQuery(
+    ['booksBuId', id],
+    () => getBookDetail(id),
+    {
+      enabled: !!id
+    }
+  )
+  const handleButtonClick = () => {
+    if (data?.data?.favorite) {
+      deleteFavoriteMutation.mutate(data?.data?.favorite.id)
+    } else {
+      addFavoriteMutation.mutate({
+        book_id: id
+      })
+    }
+  }
   return (
     <Flex flexDir="column">
       <NavBar />
@@ -54,9 +119,25 @@ export const BookDetailScreen = () => {
           </Text>
         </Flex>
         <Flex>
-          <Button>Adcionar aos favoritos</Button>
+          <Button
+            isLoading={
+              isLoading ||
+              addFavoriteMutation.isLoading ||
+              deleteFavoriteMutation.isLoading
+            }
+            secondary={data?.data?.favorite}
+            onClick={handleButtonClick}
+          >
+            {data?.data?.favorite
+              ? 'Remover dos favoritos'
+              : 'Adcionar aos favoritos'}
+          </Button>
         </Flex>
       </Flex>
+      <CategoryList
+        text="Livros Realacionados"
+        categoryId={data?.data?.book?.category?.id}
+      />
     </Flex>
   )
 }

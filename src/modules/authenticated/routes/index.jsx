@@ -1,4 +1,9 @@
-import { HomeScreen, BookDetailScreen, FavoritesScreen } from '../screens'
+import {
+  HomeScreen,
+  BookDetailScreen,
+  FavoritesScreen,
+  SearchScreen
+} from '../screens'
 export const authRoutes = [
   {
     path: '/home',
@@ -11,5 +16,9 @@ export const authRoutes = [
   {
     path: '/favorites',
     element: <FavoritesScreen />
+  },
+  {
+    path: '/search',
+    element: <SearchScreen />
   }
 ]

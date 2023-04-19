@@ -8,7 +8,7 @@ import { getCategory, getBooksByCategory } from 'src/services/api/requests'
 export const CategoryList = ({ title, categoryId }) => {
   const [selected, setSelected] = useState(categoryId)
   const { data } = useQuery('categories', getCategory)
-  console.log({ seleceted: selected })
+
   const {
     data: bookQuery,
     refetch,

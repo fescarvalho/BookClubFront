@@ -1,23 +1,19 @@
-import { Flex } from '@chakra-ui/react'
+import { Flex, Spinner } from '@chakra-ui/react'
 import { BookCard } from 'src/components'
 import { Text } from 'src/components/atoms'
-import { useQuery } from 'react-query'
-import { getHighlightedBooks } from 'src/services/api/requests'
 
-export const BookList = () => {
-  const { data } = useQuery('highlighted', getHighlightedBooks)
-
+export const BookList = ({ title, data, isLoading }) => {
   return (
     <Flex
       flexDirection="column"
       mt="48px"
       paddingX={['24px', '48px', '80px', '112px']}
-      h={['100%', '400px']}
+      h={['100%']}
     >
-      <Text.ScreenTitle>Destasques</Text.ScreenTitle>
+      <Text.ScreenTitle>{title}</Text.ScreenTitle>
       <Flex
         flexDirection="column"
-        mt={['24px', '48px']}
+        mt={['24px']}
         overflowX={['scroll', 'auto']}
         css={{
           '::-webkit-scrollbar': {
@@ -25,11 +21,21 @@ export const BookList = () => {
           }
         }}
       >
-        <Flex mt={['12px', '24px']} flexDir="row">
-          {data?.data &&
-            data?.data.map((item) => (
-              <BookCard key={`book_${item.id}`} {...item} />
+        <Flex mt={['12px', '0px']} flexDir="row">
+          {isLoading && (
+            <Flex alignItems="center" h="30px" justifyContent="center" s>
+              <Spinner />
+            </Flex>
+          )}
+          {!data ||
+            (!isLoading && data?.length === 0 && (
+              <Flex alignItems="center" h="30px" justifyContent="center">
+                <Text>Nenhum Livro realcionado encontrado.</Text>
+              </Flex>
             ))}
+
+          {data &&
+            data?.map((item) => <BookCard key={`book_${item.id}`} {...item} />)}
         </Flex>
       </Flex>
     </Flex>

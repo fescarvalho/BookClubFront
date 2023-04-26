@@ -11,7 +11,7 @@ import { ChevronDownIcon } from '@chakra-ui/icons'
 import { useNavigate } from 'react-router-dom'
 import { Text, MenuItem } from 'src/components/atoms'
 
-export const UserMenu = () => {
+export const UserMenu = ({ setShowModal }) => {
   const navigate = useNavigate()
   const userStore = useSelector((state) => state.user)
   const menuOptions = [
@@ -27,14 +27,14 @@ export const UserMenu = () => {
       icon: BiUser,
       text: 'Dados Pessoais',
       divider: false,
-      onClick: () => navigate('/')
+      onClick: () => setShowModal('user')
     },
     {
       id: 2,
       icon: BiCheckShield,
       text: 'Alterar Senha',
       divider: true,
-      onClick: () => navigate('/')
+      onClick: () => setShowModal('password')
     },
     {
       id: 3,
@@ -48,7 +48,7 @@ export const UserMenu = () => {
       icon: HiOutlineClipboard,
       text: 'Politica de Privacidade',
       divider: true,
-      onClick: () => navigate('/')
+      onClick: () => setShowModal('privacy-policy')
     },
     {
       id: 5,
